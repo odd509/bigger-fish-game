@@ -6,8 +6,6 @@ public class PlayerManager : MonoBehaviour
 {
     public GameObject GameManager;
 
-    float scaleUpPercent = 0.1f;
-
     private GameManager gm;
 
     private void Start()
@@ -18,14 +16,14 @@ public class PlayerManager : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print(collision);
         GameObject obj = collision.gameObject;
+        float scaleUp = Mathf.Abs(obj.transform.localScale.x);
         if (obj.tag == "Enemy")
         {
             if (Mathf.Abs(obj.transform.localScale.y) <= Mathf.Abs(transform.localScale.y))
             {
+                transform.localScale = new Vector3(transform.localScale.x + (transform.localScale.x > 0 ? 1 : -1) * scaleUp, transform.localScale.y + (transform.localScale.y > 0 ? 1 : -1) * scaleUp, transform.localScale.z + scaleUp);
                 Destroy(obj);
-                transform.localScale *= scaleUpPercent;
             }
             else
             {

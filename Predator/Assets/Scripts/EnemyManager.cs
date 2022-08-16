@@ -27,9 +27,15 @@ public class EnemyManager : MonoBehaviour
 
         // Move Toward
         if (Vector2.Distance(transform.position, targetTs.position) < activeDistance) {
-            if ((targetTs.position.x > transform.position.x && transform.localScale.x > 0) || (targetTs.position.x < transform.position.x && transform.localScale.x < 0))
-                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            transform.position = Vector2.MoveTowards(transform.position, targetTs.position, ((speedConstant * Time.deltaTime)));
+            if (Mathf.Abs(targetTs.localScale.y) < Mathf.Abs(transform.localScale.y)) {
+                if ((targetTs.position.x > transform.position.x && transform.localScale.x > 0) || (targetTs.position.x < transform.position.x && transform.localScale.x < 0))
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                transform.position = Vector2.MoveTowards(transform.position, targetTs.position, ((speedConstant * Time.deltaTime)));
+            }
+            else
+            {
+                transform.Translate(Vector3.forward * speedConstant * Time.deltaTime);
+            }
         }
         else
         {

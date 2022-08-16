@@ -5,10 +5,41 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Objects")]
+    public GameObject player;
+    public List<GameObject> spawners;
+
+    [Header("Canvases")]
     public GameObject inGameView;
     public GameObject restartView;
     public GameObject menuView;
     public GameObject environment;
+
+    private float playerLastSize;
+    private void Start()
+    {
+        playerLastSize = player.transform.localScale.x;
+    }
+    private void Update()
+    {
+        if (player.transform.localScale.x >= (playerLastSize * 5))
+        {
+            print("Zooming out");
+            playerLastSize = player.transform.localScale.x;
+            ZoomOut();
+        }
+    }
+    public void ZoomOut()
+    {
+        environment.transform.localScale *= 2;
+        Camera.main.GetComponent<Camera>().orthographicSize *= 2;
+        foreach (GameObject spawnerO in spawners) {
+            Spawner spawner = spawnerO.GetComponent<Spawner>();
+            spawner.spawnY *= 2;
+            spawner.activeDistance *= 2;
+        }
+    }
+
     public void Dead()
     {
         StopGame();
@@ -24,15 +55,22 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         inGameView.SetActive(true);
         environment.SetActive(true);
+        menuView.SetActive(false);
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     public void Restart()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Menu()
     {
         StopGame();
+        menuView.SetActive(true);
     }
 }
