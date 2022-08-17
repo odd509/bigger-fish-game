@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (player.transform.localScale.x >= (playerLastSize * 5))
+        if (player.transform.localScale.x >= (playerLastSize * 1.5f) && (Camera.main.GetComponent<Camera>().orthographicSize < 40 ))
         {
             print("Zooming out");
             playerLastSize = player.transform.localScale.x;
@@ -72,5 +72,9 @@ public class GameManager : MonoBehaviour
     {
         StopGame();
         menuView.SetActive(true);
+    }
+    public void NextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

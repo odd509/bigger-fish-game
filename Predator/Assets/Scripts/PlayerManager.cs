@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject GameManager;
+    public GameObject gameManager;
+    public float maxGrow = 0.3f;
 
     private GameManager gm;
 
     private void Start()
     {
-        gm = GameManager.GetComponent<GameManager>();
+        gm = gameManager.GetComponent<GameManager>();
     }
 
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject obj = collision.gameObject;
-        float scaleUp = Mathf.Abs(obj.transform.localScale.x);
+        float scaleUp = Mathf.Min(maxGrow, Mathf.Abs(obj.transform.localScale.x));
         if (obj.tag == "Enemy")
         {
             if (Mathf.Abs(obj.transform.localScale.y) <= Mathf.Abs(transform.localScale.y))

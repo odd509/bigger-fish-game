@@ -50,8 +50,8 @@ public class Spawner : MonoBehaviour
 
         //Scale
         float scalePercentage = player.transform.localScale.x / scalePercentToPlayer;
-        float scale = Random.Range(player.transform.localScale.x - scalePercentage, player.transform.localScale.x + scalePercentage);
-        copy.transform.localScale = new Vector3(scale, scale, scale);
+        float scale = Random.Range(player.transform.localScale.x - scalePercentage, player.transform.localScale.x + scalePercentage * 2);
+        copy.transform.localScale = new Vector3(scale, (copy.transform.localScale.y > 0 ? 1 : -1) * scale, scale);
         if (lookRight)
         {
             copy.transform.localScale = new Vector3(-copy.transform.localScale.x, copy.transform.localScale.y, copy.transform.localScale.z);

@@ -34,7 +34,9 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                transform.Translate(Vector3.forward * speedConstant * Time.deltaTime);
+                transform.Translate(Vector3.Normalize(transform.position - targetTs.position) * speedConstant * Time.deltaTime);
+                if ((targetTs.position.x < transform.position.x && transform.localScale.x > 0) || (targetTs.position.x > transform.position.x && transform.localScale.x < 0))
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
             }
         }
         else
